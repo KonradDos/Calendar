@@ -30,16 +30,7 @@ public class Application extends SpringBootServletInitializer {
     public static void main(String[] args) {
         ConfigurableApplicationContext context = SpringApplication.run(Application.class, args);
 
-        Event event = new Event();
-        event.setColor("asfasf");
-        event.setDescription("asdasd");
-        event.setTitle("asdasd");
-        event.setStartDay(LocalDate.now());
-        event.setEndDay(LocalDate.now());
-        event.setAllDay(true);
-
         EventDao test = context.getBean(EventDao.class);
-        test.save(event);
 
         RepoHandler.setEventDao(test);
         LaunchUtil.launchBrowserInDevelopmentMode(context);

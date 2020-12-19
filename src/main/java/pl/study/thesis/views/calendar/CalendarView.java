@@ -1,11 +1,17 @@
 package pl.study.thesis.views.calendar;
 
 import com.vaadin.flow.component.DetachEvent;
+import com.vaadin.flow.component.button.Button;
+import com.vaadin.flow.component.combobox.ComboBox;
+import com.vaadin.flow.component.datepicker.DatePicker;
 import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.html.Div;
+import com.vaadin.flow.component.icon.Icon;
+import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.router.*;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
+import org.vaadin.stefan.fullcalendar.CalendarViewImpl;
 import org.vaadin.stefan.fullcalendar.Entry;
 import org.vaadin.stefan.fullcalendar.FullCalendar;
 import org.vaadin.stefan.fullcalendar.FullCalendarBuilder;
@@ -15,9 +21,9 @@ import pl.study.thesis.components.SingleEntryComponent;
 import pl.study.thesis.handler.RepoHandler;
 import pl.study.thesis.views.main.MainView;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 @Route(value = "calendar", layout = MainView.class)
 
@@ -29,9 +35,20 @@ import java.util.Objects;
 public class CalendarView extends Div implements BeforeEnterObserver {
 
     FullCalendar calendar = FullCalendarBuilder.create().build();
+    protected final Button previousDate = new Button(new Icon(VaadinIcon.ARROW_LEFT));
+    protected final Button nextDate = new Button(new Icon(VaadinIcon.ARROW_RIGHT));
+    protected final DatePicker selectedDate = new DatePicker();
+    protected final ComboBox<String> scale = new ComboBox<>("", "Day", "Week", "Month");
 
     public CalendarView() {
-        add(calendar);
+        add(previousDate, nextDate, scale, selectedDate, calendar);
+        addListeners();
+        scale.setValue("Month");
+        calendar.getStyle().set("height", "50%");
+        selectedDate.setValue(LocalDate.now());
+    }
+
+    private void addListeners() {
         calendar.addTimeslotsSelectedListener(e -> {
             if(e.getStartDateTime().toLocalDate().plusDays(1).isEqual(e.getEndDateTime().toLocalDate())) {
                 SingleEntryComponent entryComponent = new SingleEntryComponent(e.getStartDateTime());
@@ -52,6 +69,25 @@ public class CalendarView extends Div implements BeforeEnterObserver {
                 refreshEntries();
             });
         });
+
+        previousDate.addClickListener(e -> {
+            calendar.previous();
+        });
+
+        nextDate.addClickListener(e -> {
+            calendar.next();
+        });
+
+        scale.addValueChangeListener(e -> {
+            if(e.getValue().equals("Day")) calendar.changeView(CalendarViewImpl.DAY_GRID_DAY);
+            if(e.getValue().equals("Week")) calendar.changeView(CalendarViewImpl.DAY_GRID_WEEK);
+            if(e.getValue().equals("Month")) calendar.changeView(CalendarViewImpl.DAY_GRID_MONTH);
+        });
+
+        selectedDate.addValueChangeListener(e -> {
+            calendar.gotoDate(e.getValue());
+        });
+
     }
 
     private void addEntryListener(DetachEvent event) {

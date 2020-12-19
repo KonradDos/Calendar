@@ -16,7 +16,6 @@ public class ModOrDelEntryComponent extends DoubleEntryComponent{
         super(entry.getStart(), entry.getEnd());
         add(remove);
         Event event = Event.fromEntry(entry);
-        System.out.println("CONSTRUCTOR EVENT ID: " + event.getId());
         binder.readBean(Event.fromEntry(entry));
 
         componentLabel.setText("Modify or remove entry");
