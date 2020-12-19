@@ -20,6 +20,7 @@ import java.util.List;
 import java.util.Objects;
 
 @Route(value = "calendar", layout = MainView.class)
+
 @PageTitle("Calendar")
 @CssImport("./styles/views/about/about-view.css")
 @RouteAlias(value = "calendar", layout = MainView.class)
