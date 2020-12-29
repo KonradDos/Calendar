@@ -7,11 +7,14 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
 @Entity
+@XmlRootElement
 public class Event implements Serializable {
     @Id
     @GeneratedValue(strategy=GenerationType.AUTO)
@@ -32,6 +35,7 @@ public class Event implements Serializable {
         return title;
     }
 
+    @XmlElement
     public void setTitle(String title) {
         this.title = title;
     }
@@ -40,6 +44,7 @@ public class Event implements Serializable {
         return description;
     }
 
+    @XmlElement
     public void setDescription(String description) {
         this.description = description;
     }
@@ -48,6 +53,7 @@ public class Event implements Serializable {
         return color;
     }
 
+    @XmlElement
     public void setColor(String color) {
         this.color = color;
     }
@@ -56,6 +62,7 @@ public class Event implements Serializable {
         return allDay;
     }
 
+    @XmlElement
     public void setAllDay(boolean allDay) {
         this.allDay = allDay;
     }
@@ -64,6 +71,7 @@ public class Event implements Serializable {
         return startDay;
     }
 
+    @XmlElement
     public void setStartDay(LocalDate startDay) {
         this.startDay = startDay;
     }
@@ -72,6 +80,7 @@ public class Event implements Serializable {
         return endDay;
     }
 
+    @XmlElement
     public void setEndDay(LocalDate endDay) {
         this.endDay = endDay;
     }
@@ -80,6 +89,7 @@ public class Event implements Serializable {
         return startTime;
     }
 
+    @XmlElement
     public void setStartTime(LocalTime startTime) {
         this.startTime = startTime;
     }
@@ -88,6 +98,7 @@ public class Event implements Serializable {
         return endTime;
     }
 
+    @XmlElement
     public void setEndTime(LocalTime endTime) {
         this.endTime = endTime;
     }
@@ -96,6 +107,7 @@ public class Event implements Serializable {
         return id;
     }
 
+    @XmlElement
     public void setId(Long id) {
         this.id = id;
     }
