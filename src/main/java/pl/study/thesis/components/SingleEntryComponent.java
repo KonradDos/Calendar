@@ -51,10 +51,22 @@ public class SingleEntryComponent extends Dialog {
     public SingleEntryComponent(LocalDateTime startDate) {
         this.startDay.setValue(startDate.toLocalDate());
         add(componentLabel, title, colors, description, allDay, startDay, startTime, endTime, save);
-
+        setIds();
         setStyles();
         setListeners();
         setBindings();
+    }
+
+    protected void setIds() {
+        title.setId("title_input");
+        colors.setId("color_select");
+        description.setId("dsc_input");
+        allDay.setId("allDay_checkbox");
+        startDay.setId("startDay_datepicker");
+        endDay.setId("endDay_datepicker");
+        startTime.setId("startTime_timepicker");
+        endTime.setId("endTime_timepicker");
+        save.setId("save_button");
     }
 
     protected void setBindings() {
