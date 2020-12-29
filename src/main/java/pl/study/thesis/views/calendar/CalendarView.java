@@ -41,11 +41,20 @@ public class CalendarView extends Div implements BeforeEnterObserver {
     protected final ComboBox<String> scale = new ComboBox<>("", "Day", "Week", "Month");
 
     public CalendarView() {
+        setIds();
         add(previousDate, nextDate, scale, selectedDate, calendar);
         addListeners();
         scale.setValue("Month");
         calendar.getStyle().set("height", "50%");
         selectedDate.setValue(LocalDate.now());
+    }
+
+    private void setIds() {
+        this.setId("calendar_main_element");
+        previousDate.setId("previousDate_button");
+        nextDate.setId("nextDate_button");
+        selectedDate.setId("selectDate_picker");
+        calendar.setId("calendar_widget");
     }
 
     private void addListeners() {
@@ -105,7 +114,9 @@ public class CalendarView extends Div implements BeforeEnterObserver {
     private void refreshEntries() {
         calendar.removeAllEntries();
         List<Entry> entries = new ArrayList<>();
-        RepoHandler.getEventDao().findAll().forEach(event -> entries.add(event.asEntry()));
+        RepoHandler.getEventDao().findAll().forEach(event -> {
+            entries.add(event.asEntry());
+        });
         calendar.addEntries(entries);
     }
 }
